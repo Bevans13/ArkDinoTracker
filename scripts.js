@@ -142,3 +142,73 @@ function deleteDino(index) {
     localStorage.setItem('dinoList', JSON.stringify(dinoList));
     displayDinoList();
 }
+
+// Event listener for the Mate Dinosaurs button
+document.getElementById('mateButton').addEventListener('click', function() {
+    const matingSection = document.getElementById('matingSection');
+    const dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
+    const selectedSpecies = document.getElementById('speciesFilter').value;
+
+    // Filter the dinoList by the currently selected species
+    const filteredDinoList = selectedSpecies === 'all' ? dinoList : dinoList.filter(dino => dino.species === selectedSpecies);
+
+    // Populate parent selection dropdowns
+    const parent1Dropdown = document.getElementById('parent1');
+    const parent2Dropdown = document.getElementById('parent2');
+    parent1Dropdown.innerHTML = '';
+    parent2Dropdown.innerHTML = '';
+    filteredDinoList.forEach(dino => {
+        const option1 = document.createElement('option');
+        option1.value = dino.name;
+        option1.textContent = dino.name;
+        parent1Dropdown.appendChild(option1);
+
+        const option2 = document.createElement('option');
+        option2.value = dino.name;
+        option2.textContent = dino.name;
+        parent2Dropdown.appendChild(option2);
+    });
+
+    matingSection.style.display = 'block';
+});
+
+// Event listener for the close button in the mating section
+document.getElementById('closeMatingSection').addEventListener('click', function() {
+    document.getElementById('matingSection').style.display = 'none';
+});
+
+// Event listener for mating form submission
+document.getElementById('matingForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const parent1Name = document.getElementById('parent1').value;
+    const parent2Name = document.getElementById('parent2').value;
+    const dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
+
+    const parent1 = dinoList.find(dino => dino.name === parent1Name);
+    const parent2 = dinoList.find(dino => dino.name === parent2Name);
+
+    if (parent1 && parent2) {
+        const offspring = {
+            name: `${parent1.name}-${parent2.name} Jr.`,
+            species: parent1.species,  // Assuming same species for simplicity
+            gender: Math.random() > 0.5 ? 'Male' : 'Female',
+            level: Math.floor((parseInt(parent1.level) + parseInt(parent2.level)) / 2),
+            health: Math.floor((parseInt(parent1.health) + parseInt(parent2.health)) / 2),
+            stamina: Math.floor((parseInt(parent1.stamina) + parseInt(parent2.stamina)) / 2),
+            oxygen: Math.floor((parseInt(parent1.oxygen) + parseInt(parent2.oxygen)) / 2),
+            food: Math.floor((parseInt(parent1.food) + parseInt(parent2.food)) / 2),
+            weight: Math.floor((parseInt(parent1.weight) + parseInt(parent2.weight)) / 2),
+            melee: Math.floor((parseInt(parent1.melee) + parseInt(parent2.melee)) / 2),
+            mutation: Math.floor((parseInt(parent1.mutation) + parseInt(parent2.mutation)) / 2)
+        };
+
+        dinoList.push(offspring);
+        localStorage.setItem('dinoList', JSON.stringify(dinoList));
+        displayDinoList();
+
+        document.getElementById('matingForm').reset();
+        document.getElementById('matingSection').style.display = 'none';
+    }
+});
+
