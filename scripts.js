@@ -1,114 +1,31 @@
 // Function to fetch and populate species
 async function fetchSpecies() {
-    const response = await fetch('species.json');
-    const speciesList = await response.json();
-    
-    // Populate species dropdown and filter
-    const speciesDropdown = document.getElementById('dinoSpecies');
-    const speciesFilter = document.getElementById('speciesFilter');
-    
-    speciesList.forEach(species => {
-        const option = document.createElement('option');
-        option.value = species.name;
-        option.textContent = species.name;
-        speciesDropdown.appendChild(option);
-        
-        const filterOption = document.createElement('option');
-        filterOption.value = species.name;
-        filterOption.textContent = species.name;
-        speciesFilter.appendChild(filterOption);
-    });
+    try {
+        const response = await fetch('species.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const speciesList = await response.json();
+
+        // Populate species dropdown and filter
+        const speciesDropdown = document.getElementById('dinoSpecies');
+        const speciesFilter = document.getElementById('speciesFilter');
+
+        speciesList.forEach(species => {
+            const option = document.createElement('option');
+            option.value = species.name;
+            option.textContent = species.name;
+            speciesDropdown.appendChild(option);
+
+            const filterOption = document.createElement('option');
+            filterOption.value = species.name;
+            filterOption.textContent = species.name;
+            speciesFilter.appendChild(filterOption);
+        });
+    } catch (error) {
+        console.error('Failed to fetch species:', error);
+    }
 }
-
-// Call the function to fetch species
-fetchSpecies();
-
-
-
-// Current Sort State
-let currentSort = { column: null, direction: 'asc' };
-
-// Event listener for Add Dinosaur Button
-document.getElementById('addDinoButton').addEventListener('click', function() {
-    const form = document.getElementById('dinoForm');
-    const dinoListSection = document.getElementById('dinoListSection');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    dinoListSection.style.display = 'none'; // Hide Dino List
-});
-
-// Event Listener for Dino Form Submission
-document.getElementById('dinoForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const dinoStats = {
-        name: document.getElementById('dinoName').value,
-        species: document.getElementById('dinoSpecies').value,
-        gender: document.getElementById('dinoGender').value,
-        level: document.getElementById('dinoLevel').value,
-        health: document.getElementById('dinoHealth').value,
-        stamina: document.getElementById('dinoStamina').value,
-        oxygen: document.getElementById('dinoOxygen').value,
-        food: document.getElementById('dinoFood').value,
-        weight: document.getElementById('dinoWeight').value,
-        melee: document.getElementById('dinoMelee').value,
-        mutation: document.getElementById('dinoMutation').value
-    };
-    
-    let dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
-    dinoList.push(dinoStats);
-    localStorage.setItem('dinoList', JSON.stringify(dinoList));
-    displayDinoList();
-    document.getElementById('dinoForm').reset();
-    document.getElementById('dinoForm').style.display = 'none';
-});
-
-// Event listener for Dinosaur List button
-document.getElementById('toggleDinoListButton').addEventListener('click', function() {
-    const dinoListSection = document.getElementById('dinoListSection');
-    const form = document.getElementById('dinoForm');
-    dinoListSection.style.display = dinoListSection.style.display === 'none' ? 'block' : 'none';
-    form.style.display = 'none'; // Hide Add Dino Form
-});
-
-// Event listener for species filter change
-document.getElementById('speciesFilter').addEventListener('change', function() {
-    updateParentOptions();
-    displayDinoList();
-});
-
-function updateParentOptions() {
-    const dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
-    const selectedSpecies = document.getElementById('speciesFilter').value;
-
-    // Filter the dinoList by the currently selected species
-    const filteredDinoList = selectedSpecies === 'all' ? dinoList : dinoList.filter(dino => dino.species === selectedSpecies);
-
-    // Populate parent selection dropdowns
-    const parent1Dropdown = document.getElementById('parent1');
-    const parent2Dropdown = document.getElementById('parent2');
-    parent1Dropdown.innerHTML = '';
-    parent2Dropdown.innerHTML = '';
-    filteredDinoList.forEach(dino => {
-        const option1 = document.createElement('option');
-        option1.value = dino.name;
-        option1.textContent = dino.name;
-        parent1Dropdown.appendChild(option1);
-
-        const option2 = document.createElement('option');
-        option2.value = dino.name;
-        option2.textContent = dino.name;
-        parent2Dropdown.appendChild(option2);
-    });
-}
-
-// Add event listeners for sorting headers
-['sortGender', 'sortLevel', 'sortHealth', 'sortStamina', 'sortOxygen', 'sortFood', 'sortWeight', 'sortMelee'].forEach(id => {
-    document.getElementById(id).addEventListener('click', function() {
-        const column = id.slice(4).toLowerCase();  // Get column name
-        currentSort.direction = (currentSort.column === column && currentSort.direction === 'asc') ? 'desc' : 'asc';
-        currentSort.column = column;
-        displayDinoList();
-    });
-});
 
 // Function to display the dinosaur list
 function displayDinoList() {
@@ -132,15 +49,14 @@ function displayDinoList() {
     });
 
     // Sort the filteredList based on the current sort state
-if (currentSort.column) {
-    filteredList.sort((a, b) => {
-        const dir = currentSort.direction === 'asc' ? 1 : -1;
-        const aValue = parseFloat(a[currentSort.column]);
-        const bValue = parseFloat(b[currentSort.column]);
-        return (aValue > bValue ? dir : -dir) || (aValue < bValue ? -dir : 0);
-    });
-}
-
+    if (currentSort.column) {
+        filteredList.sort((a, b) => {
+            const dir = currentSort.direction === 'asc' ? 1 : -1;
+            const aValue = parseFloat(a[currentSort.column]);
+            const bValue = parseFloat(b[currentSort.column]);
+            return (aValue > bValue ? dir : -dir) || (aValue < bValue ? -dir : 0);
+        });
+    }
 
     // Update sort arrows
     ['Gender', 'Level', 'Health', 'Stamina', 'Oxygen', 'Food', 'Weight', 'Melee'].forEach(col => {
@@ -182,40 +98,8 @@ if (currentSort.column) {
     });
 }
 
-// Function to delete a dinosaur from the list
-function deleteDino(index) {
-    let dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
-    dinoList.splice(index, 1);
-    localStorage.setItem('dinoList', JSON.stringify(dinoList));
-    displayDinoList();
-}
-
-// Populate species dropdown and filter on page load
-document.addEventListener('DOMContentLoaded', function() {
-    const speciesDropdown = document.getElementById('dinoSpecies');
-    const speciesFilter = document.getElementById('speciesFilter');
-    speciesList.forEach(species => {
-        // Populate the dino species dropdown
-        const option = document.createElement('option');
-        option.value = species;
-        option.textContent = species;
-        speciesDropdown.appendChild(option);
-
-        // Populate the filter dropdown with all species
-        const filterOption = document.createElement('option');
-        filterOption.value = species;
-        filterOption.textContent = species;
-        speciesFilter.appendChild(filterOption);
-    });
-
-    displayDinoList();  // Display dinos on page load
-});
-
-
-
-// Event listener for the Mate Dinosaurs button
-document.getElementById('mateButton').addEventListener('click', function() {
-    const matingSection = document.getElementById('matingSection');
+// Function to update parent options
+function updateParentOptions() {
     const dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
     const selectedSpecies = document.getElementById('speciesFilter').value;
 
@@ -238,14 +122,63 @@ document.getElementById('mateButton').addEventListener('click', function() {
         option2.textContent = dino.name;
         parent2Dropdown.appendChild(option2);
     });
-
-    matingSection.style.display = 'block';
-});
-
+}
 
 // Event listener for the close button in the mating section
 document.getElementById('closeMatingSection').addEventListener('click', function() {
     document.getElementById('matingSection').style.display = 'none';
+});
+
+// Event listener for the Add Dinosaur button
+document.getElementById('addDinoButton').addEventListener('click', function() {
+    const form = document.getElementById('dinoForm');
+    const dinoListSection = document.getElementById('dinoListSection');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    dinoListSection.style.display = 'none'; // Hide Dino List
+});
+
+// Event listener for the Dinosaur List button
+document.getElementById('toggleDinoListButton').addEventListener('click', function() {
+    const dinoListSection = document.getElementById('dinoListSection');
+    const form = document.getElementById('dinoForm');
+    dinoListSection.style.display = dinoListSection.style.display === 'none' ? 'block' : 'none';
+    form.style.display = 'none'; // Hide Add Dino Form
+});
+
+// Event listener for the Mate Dinosaurs button
+document.getElementById('mateButton').addEventListener('click', function() {
+    updateParentOptions();
+    document.getElementById('matingSection').style.display = 'block';
+});
+
+// Event listener for the species filter change
+document.getElementById('speciesFilter').addEventListener('change', function() {
+    updateParentOptions();
+    displayDinoList();
+});
+
+// Event listener for the Dino Form submission
+document.getElementById('dinoForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const dinoStats = {
+        name: document.getElementById('dinoName').value,
+        species: document.getElementById('dinoSpecies').value,
+        gender: document.getElementById('dinoGender').value,
+        level: document.getElementById('dinoLevel').value,
+        health: document.getElementById('dinoHealth').value,
+        stamina: document.getElementById('dinoStamina').value,
+        oxygen: document.getElementById('dinoOxygen').value,
+        food: document.getElementById('dinoFood').value,
+        weight: document.getElementById('dinoWeight').value,
+        melee: document.getElementById('dinoMelee').value,
+        mutation: document.getElementById('dinoMutation').value || 0
+    };
+    let dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
+    dinoList.push(dinoStats);
+    localStorage.setItem('dinoList', JSON.stringify(dinoList));
+    displayDinoList();
+    document.getElementById('dinoForm').reset();
+    document.getElementById('dinoForm').style.display = 'none';
 });
 
 // Event listener for the Mating Form submission
