@@ -58,6 +58,7 @@ async function fetchSpecies() {
             throw new Error('Network response was not ok');
         }
         const speciesList = await response.json();
+        console.log('Species List:', speciesList); // Add this line to check the fetched data
 
         const speciesDropdown = document.getElementById('dinoSpecies');
         const speciesFilter = document.getElementById('speciesFilter');
@@ -105,6 +106,7 @@ function updateParentOptions() {
 // Function to display the dinosaur list
 function displayDinoList() {
     const dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
+    console.log('Dino List:', dinoList); // Add this line to check local storage data
     const dinoTableBody = document.getElementById('dinoTable').getElementsByTagName('tbody')[0];
     dinoTableBody.innerHTML = ''; // Clear previous table rows
 
