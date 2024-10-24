@@ -111,6 +111,7 @@ function displayDinoList() {
     dinoTableBody.innerHTML = ''; // Clear previous table rows
 
     dinoList.forEach(function(dino, index) {
+        console.log('Adding dino:', dino); //log each dino being added
         const row = dinoTableBody.insertRow();
         row.insertCell(0).textContent = dino.name;
         row.insertCell(1).textContent = dino.species;
