@@ -189,26 +189,28 @@ document.getElementById('matingForm').addEventListener('submit', function(event)
     const parent2 = dinoList.find(dino => dino.name === parent2Name);
 
     if (parent1 && parent2) {
+        const getInheritedStat = (stat, parent1Value, parent2Value) => {
+            return stat === 'parent1' ? parent1Value : parent2Value;
+        };
+
         const offspring = {
             name: `${parent1.name}-${parent2.name} Jr.`,
-            species: parent1.species,  // Assuming same species for simplicity
+            species: parent1.species,
             gender: Math.random() > 0.5 ? 'Male' : 'Female',
             level: Math.floor((parseInt(parent1.level) + parseInt(parent2.level)) / 2),
-            health: Math.floor((parseInt(parent1.health) + parseInt(parent2.health)) / 2),
-            stamina: Math.floor((parseInt(parent1.stamina) + parseInt(parent2.stamina)) / 2),
-            oxygen: Math.floor((parseInt(parent1.oxygen) + parseInt(parent2.oxygen)) / 2),
-            food: Math.floor((parseInt(parent1.food) + parseInt(parent2.food)) / 2),
-            weight: Math.floor((parseInt(parent1.weight) + parseInt(parent2.weight)) / 2),
-            melee: Math.floor((parseInt(parent1.melee) + parseInt(parent2.melee)) / 2),
+            health: getInheritedStat(document.getElementById('healthParent').value, parseInt(parent1.health), parseInt(parent2.health)),
+            stamina: getInheritedStat(document.getElementById('staminaParent').value, parseInt(parent1.stamina), parseInt(parent2.stamina)),
+            oxygen: getInheritedStat(document.getElementById('oxygenParent').value, parseInt(parent1.oxygen), parseInt(parent2.oxygen)),
+            food: getInheritedStat(document.getElementById('foodParent').value, parseInt(parent1.food), parseInt(parent2.food)),
+            weight: getInheritedStat(document.getElementById('weightParent').value, parseInt(parent1.weight), parseInt(parent2.weight)),
+            melee: getInheritedStat(document.getElementById('meleeParent').value, parseInt(parent1.melee), parseInt(parent2.melee)),
             mutation: Math.floor((parseInt(parent1.mutation) + parseInt(parent2.mutation)) / 2)
         };
 
         dinoList.push(offspring);
         localStorage.setItem('dinoList', JSON.stringify(dinoList));
         displayDinoList();
-
         document.getElementById('matingForm').reset();
         document.getElementById('matingSection').style.display = 'none';
     }
 });
-
