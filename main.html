@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ark Survival Dinosaur Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Ark Survival Dinosaur Tracker</h1>
+        <button id="addDinoButton">Add Dinosaur</button>
+        <button id="toggleDinoListButton">Dinosaur List</button>
+    </header>
+    <main>
+        <section id="dinoFormSection">
+            <form id="dinoForm" style="display: none;">
+                <div>
+                    <label for="dinoName">Name:</label>
+                    <input type="text" id="dinoName" name="dinoName" required>
+                </div>
+                <div>
+                    <label for="dinoSpecies">Species:</label>
+                    <select id="dinoSpecies" name="dinoSpecies" required>
+                        <option value="">Select Species</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="dinoGender">Gender:</label>
+                    <select id="dinoGender" name="dinoGender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="N/A">N/A</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="dinoLevel">Level:</label>
+                    <input type="number" id="dinoLevel" name="dinoLevel" required min="1" max="500" step="1">
+                </div>
+                <div>
+                    <label for="dinoHealth">Health:</label>
+                    <input type="number" id="dinoHealth" name="dinoHealth" required>
+                </div>
+                <div>
+                    <label for="dinoStamina">Stamina:</label>
+                    <input type="number" id="dinoStamina" name="dinoStamina" required min="0" max="1000000" step="1">
+                </div>
+                <div>
+                    <label for="dinoOxygen">Oxygen:</label>
+                    <input type="number" id="dinoOxygen" name="dinoOxygen" min="0" max="1000000" step="1">
+                </div>
+                <div>
+                    <label for="dinoFood">Food:</label>
+                    <input type="number" id="dinoFood" name="dinoFood" min="0" max="1000000" step="1">
+                </div>
+                <div>
+                    <label for="dinoWeight">Weight:</label>
+                    <input type="number" id="dinoWeight" name="dinoWeight" required min="0" max="1000000" step="1">
+                </div>
+                <div>
+                    <label for="dinoMelee">Melee:</label>
+                    <input type="number" id="dinoMelee" name="dinoMelee" required min="0" max="1000000" step="1">
+                </div>
+                <div>
+                    <label for="dinoMutation">Mutation Counter:</label>
+                    <input type="number" id="dinoMutation" name="dinoMutation" required min="0" max="20" step="1" value="0">
+                </div>
+                <button type="submit">Add Dinosaur</button>
+            </form>
+        </section>
+        <section id="dinoListSection" style="display: none;">
+            <h2>Dinosaur List <button id="mateButton" style="margin-left: 20px;">Mate Dinosaurs</button></h2>
+            <table id="dinoTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>
+                            Species
+                            <select id="speciesFilter">
+                                <option value="all">All Species</option>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
+                        </th>
+                        <th id="sortGender">Gender <span id="arrowGender"></span></th>
+                        <th id="sortLevel">Level <span id="arrowLevel"></span></th>
+                        <th id="sortHealth">Health <span id="arrowHealth"></span></th>
+                        <th id="sortStamina">Stamina <span id="arrowStamina"></span></th>
+                        <th id="sortOxygen">Oxygen <span id="arrowOxygen"></span></th>
+                        <th id="sortFood">Food <span id="arrowFood"></span></th>
+                        <th id="sortWeight">Weight <span id="arrowWeight"></span></th>
+                        <th id="sortMelee">Melee <span id="arrowMelee"></span></th>
+                        <th id="sortMutation">Mutation <span id="arrowMutation"></span></th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </section>
+        <section id="matingSection" style="display: none;">
+            <h2>Mate Dinosaurs <button id="closeMatingSection" style="margin-left: 20px;">Close</button></h2>
+            <form id="matingForm">
+                <label for="parent1">Parent 1:</label>
+                <select id="parent1" required></select>
+        
+                <label for="parent2">Parent 2:</label>
+                <select id="parent2" required></select>
+        
+                <button type="submit">Mate</button>
+            </form>
+        </section>        
+    </main>
+    <script src="scripts.js"></script>
+</body>
+</html>
