@@ -264,6 +264,13 @@ document.getElementById('matingForm').addEventListener('submit', function(event)
             mutation: Math.floor((parseInt(parent1.mutation) + parseInt(parent2.mutation)) / 2)
         };
 
+        // Handle Mutation
+        if (document.getElementById('mutationToggle').checked) {
+            const selectedStat = document.getElementById('statToMutate').value;
+            const mutatedValue = parseInt(document.getElementById('mutatedStat').value);
+            offspring[selectedStat] = mutatedValue;  // Apply the mutation to the selected stat
+        }
+
         dinoList.push(offspring);
         localStorage.setItem('dinoList', JSON.stringify(dinoList));
         displayDinoList();
