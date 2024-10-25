@@ -186,6 +186,7 @@ document.getElementById('matingForm').addEventListener('submit', function(event)
 
     const parent1Name = document.getElementById('parent1').value;
     const parent2Name = document.getElementById('parent2').value;
+    const offspringName = document.getElementById('offspringName').value;
     const dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
 
     const parent1 = dinoList.find(dino => dino.name === parent1Name);
@@ -197,7 +198,7 @@ document.getElementById('matingForm').addEventListener('submit', function(event)
         };
 
         const offspring = {
-            name: `${parent1.name}-${parent2.name} Jr.`,
+            name: offspringName,
             species: parent1.species,
             gender: Math.random() > 0.5 ? 'Male' : 'Female',
             level: Math.floor((parseInt(parent1.level) + parseInt(parent2.level)) / 2),
