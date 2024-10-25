@@ -158,16 +158,16 @@ function displayDinoList() {
         deleteButton.textContent = 'Dead';
         deleteButton.className = 'delete';  // Add the delete class for styling
         deleteButton.onclick = function() {
-            deleteDino(index);
+            deleteDino(dino.name);
         };
         row.insertCell(11).appendChild(deleteButton);
     });
 }
 
 // Function to delete a dinosaur from the list
-function deleteDino(index) {
+function deleteDino(name) {
     let dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
-    dinoList.splice(index, 1);
+    dinoList = dinoList.filter(dino => dino.name !== name);
     localStorage.setItem('dinoList', JSON.stringify(dinoList));
     displayDinoList();
 }
