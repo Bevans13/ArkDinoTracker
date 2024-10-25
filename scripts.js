@@ -2,8 +2,10 @@
 document.getElementById('addDinoButton').addEventListener('click', function() {
     const form = document.getElementById('dinoForm');
     const dinoListSection = document.getElementById('dinoListSection');
+    const matingSection = document.getElementById('matingSection'); // Add this line
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
     dinoListSection.style.display = 'none'; // Hide Dino List
+    matingSection.style.display = 'none'; // Hide Mating section
 });
 
 // Event listener for Dino Form Submission
