@@ -136,14 +136,14 @@ function displayDinoList() {
             { value: dino.name },
             { value: dino.species },
             { value: dino.gender },
-            { value: dino.level, max: maxValues.level },
+            { value: dino.level },
             { value: dino.health, max: maxValues.health },
             { value: dino.stamina, max: maxValues.stamina },
             { value: dino.oxygen, max: maxValues.oxygen },
             { value: dino.food, max: maxValues.food },
             { value: dino.weight, max: maxValues.weight },
             { value: dino.melee, max: maxValues.melee },
-            { value: dino.mutation, max: maxValues.mutation }
+            { value: dino.mutation }
         ];
 
         cells.forEach((cell, i) => {
