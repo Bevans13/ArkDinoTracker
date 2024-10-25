@@ -261,7 +261,7 @@ document.getElementById('matingForm').addEventListener('submit', function(event)
             food: getInheritedStat(document.getElementById('foodParent').value, parseInt(parent1.food), parseInt(parent2.food)),
             weight: getInheritedStat(document.getElementById('weightParent').value, parseInt(parent1.weight), parseInt(parent2.weight)),
             melee: getInheritedStat(document.getElementById('meleeParent').value, parseInt(parent1.melee), parseInt(parent2.melee)),
-            mutation: Math.floor((parseInt(parent1.mutation) + parseInt(parent2.mutation)) / 2)
+            mutation: Math.floor((parseInt(parent1.mutation) + parseInt(parent2.mutation)))
         };
 
         // Handle Mutation
@@ -269,6 +269,7 @@ document.getElementById('matingForm').addEventListener('submit', function(event)
             const selectedStat = document.getElementById('statToMutate').value;
             const mutatedValue = parseInt(document.getElementById('mutatedStat').value);
             offspring[selectedStat] = mutatedValue;  // Apply the mutation to the selected stat
+            offspring.mutation += 1; // Increment mutation counter
         }
 
         dinoList.push(offspring);
