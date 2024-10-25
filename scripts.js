@@ -113,20 +113,44 @@ function displayDinoList() {
 
     const filteredList = selectedSpecies === 'all' ? dinoList : dinoList.filter(dino => dino.species === selectedSpecies);
 
+    // Find the highest values in each column
+    let maxValues = {
+        level: 0, health: 0, stamina: 0, oxygen: 0, food: 0, weight: 0, melee: 0, mutation: 0
+    };
+    filteredList.forEach(dino => {
+        maxValues.level = Math.max(maxValues.level, parseInt(dino.level));
+        maxValues.health = Math.max(maxValues.health, parseInt(dino.health));
+        maxValues.stamina = Math.max(maxValues.stamina, parseInt(dino.stamina));
+        maxValues.oxygen = Math.max(maxValues.oxygen, parseInt(dino.oxygen));
+        maxValues.food = Math.max(maxValues.food, parseInt(dino.food));
+        maxValues.weight = Math.max(maxValues.weight, parseInt(dino.weight));
+        maxValues.melee = Math.max(maxValues.melee, parseInt(dino.melee));
+        maxValues.mutation = Math.max(maxValues.mutation, parseInt(dino.mutation));
+    });
+    
     filteredList.forEach(function(dino, index) {
-        console.log('Adding dino:', dino); //log each dino being added
         const row = dinoTableBody.insertRow();
-        row.insertCell(0).textContent = dino.name;
-        row.insertCell(1).textContent = dino.species;
-        row.insertCell(2).textContent = dino.gender;
-        row.insertCell(3).textContent = dino.level;
-        row.insertCell(4).textContent = dino.health;
-        row.insertCell(5).textContent = dino.stamina;
-        row.insertCell(6).textContent = dino.oxygen;
-        row.insertCell(7).textContent = dino.food;
-        row.insertCell(8).textContent = dino.weight;
-        row.insertCell(9).textContent = dino.melee;
-        row.insertCell(10).textContent = dino.mutation;
+        const cells = [
+            { value: dino.name },
+            { value: dino.species },
+            { value: dino.gender },
+            { value: dino.level, max: maxValues.level },
+            { value: dino.health, max: maxValues.health },
+            { value: dino.stamina, max: maxValues.stamina },
+            { value: dino.oxygen, max: maxValues.oxygen },
+            { value: dino.food, max: maxValues.food },
+            { value: dino.weight, max: maxValues.weight },
+            { value: dino.melee, max: maxValues.melee },
+            { value: dino.mutation, max: maxValues.mutation }
+        ];
+
+        cells.forEach((cell, i) => {
+            const cellElement = row.insertCell(i);
+            cellElement.textContent = cell.value;
+            if (cell.value == cell.max) {
+                cellElement.classList.add('highlight');
+            }
+        });
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Dead';
