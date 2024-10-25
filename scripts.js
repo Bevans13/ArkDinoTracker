@@ -105,12 +105,15 @@ function updateParentOptions() {
 
 // Function to display the dinosaur list
 function displayDinoList() {
+    const selectedSpecies = document.getElementById('speciesFilter').value;
     const dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
     console.log('Dino List:', dinoList); // Add this line to check local storage data
     const dinoTableBody = document.getElementById('dinoTable').getElementsByTagName('tbody')[0];
     dinoTableBody.innerHTML = ''; // Clear previous table rows
 
-    dinoList.forEach(function(dino, index) {
+    const filteredList = selectedSpecies === 'all' ? dinoList : dinoList.filter(dino => dino.species === selectedSpecies);
+
+    filteredList.forEach(function(dino, index) {
         console.log('Adding dino:', dino); //log each dino being added
         const row = dinoTableBody.insertRow();
         row.insertCell(0).textContent = dino.name;
