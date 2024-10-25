@@ -14,7 +14,7 @@
     </header>
     <main>
         <section id="dinoFormSection">
-            <form id="dinoForm" style="display: none;">
+            <form id="dinoForm" style="display: none;" autocomplete="off">
                 <div>
                     <label for="dinoName">Name:</label>
                     <input type="text" id="dinoName" name="dinoName" required>
@@ -100,7 +100,7 @@
         </section>
         <section id="matingSection" style="display: none;">
             <h2>Mate Dinosaurs <button id="closeMatingSection" style="margin-left: 20px;">Close</button></h2>
-            <form id="matingForm">
+            <form id="matingForm" autocomplete="off">
                 <label for="parent1">Parent 1:</label>
                 <select id="parent1" required></select>
         
@@ -170,18 +170,22 @@
 
                 <!-- Mutated stat entry field, hidden until mutation toggle is checked -->
                 <div id="mutatedStatField" style="display:none;">
-                    <label for="statToMutate">Select Stat to Mutate:</label>
-                    <select id="statToMutate" name="statToMutate">
-                        <option value="health">Health</option>
-                        <option value="stamina">Stamina</option>
-                        <option value="oxygen">Oxygen</option>
-                        <option value="food">Food</option>
-                        <option value="weight">Weight</option>
-                        <option value="melee">Melee</option>
-                    </select>
-
-                    <label for="mutatedStat">Mutated Stat Value:</label>
-                    <input type="text" id="mutatedStat" name="mutatedStat">
+                    <div>
+                        <label for="statToMutate">Select Stat to Mutate:</label>
+                        <select id="statToMutate" name="statToMutate">
+                            <option value="health">Health</option>
+                            <option value="stamina">Stamina</option>
+                            <option value="oxygen">Oxygen</option>
+                            <option value="food">Food</option>
+                            <option value="weight">Weight</option>
+                            <option value="melee">Melee</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="mutatedStat">Mutated Stat Value:</label>
+                        <input type="text" id="mutatedStat" name="mutatedStat">
+                    </div>
                 </div>
         
                 <button id="mateSubmitButton" type="submit">Mate</button>

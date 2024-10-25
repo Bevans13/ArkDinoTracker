@@ -148,6 +148,7 @@ background-color: #ff1493; /* DeepPink */
     display: inline-block;
     width: 60px;
     height: 34px;
+    max-width: 160px;
 }
 
 .switch input {
@@ -185,5 +186,5 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-    transform: translateX(26px);
+    transform: translateX(126px);
 }
