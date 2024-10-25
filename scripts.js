@@ -172,6 +172,32 @@ document.getElementById('mateButton').addEventListener('click', function() {
         parent2Dropdown.appendChild(option2);
     });
 
+    // Get selected parents
+    const parent1Name = parent1Dropdown.value;
+    const parent2Name = parent2Dropdown.value;
+    const parent1 = dinoList.find(dino => dino.name === parent1Name);
+    const parent2 = dinoList.find(dino => dino.name === parent2Name);
+
+    if (parent1 && parent2) {
+        // Populate stat dropdowns with actual values
+        const updateStatDropdown = (dropdownId, stat) => {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.innerHTML = '';
+
+            const option1 = document.createElement('option');
+            option1.value = 'parent1';
+            option1.textContent = `Parent 1: ${parent1[stat]}`;
+            dropdown.appendChild(option1);
+
+            const option2 = document.createElement('option');
+            option2.value = 'parent2';
+            option2.textContent = `Parent 2: ${parent2[stat]}`;
+            dropdown.appendChild(option2);
+        };
+
+        updateStatDropdowns(); //Initial update
+    }
+
     matingSection.style.display = 'block';
 });
 
@@ -219,3 +245,42 @@ document.getElementById('matingForm').addEventListener('submit', function(event)
         document.getElementById('matingSection').style.display = 'none';
     }
 });
+
+function updateStatDropdowns() {
+    const dinoList = JSON.parse(localStorage.getItem('dinoList')) || [];
+
+    const parent1Name = document.getElementById('parent1').value;
+    const parent2Name = document.getElementById('parent2').value;
+
+    const parent1 = dinoList.find(dino => dino.name === parent1Name);
+    const parent2 = dinoList.find(dino => dino.name === parent2Name);
+
+    if (parent1 && parent2) {
+        const updateStatDropdown = (dropdownId, stat) => {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.innerHTML = '';
+
+            const option1 = document.createElement('option');
+            option1.value = 'parent1';
+            option1.textContent = `Parent 1: ${parent1[stat]}`;
+            dropdown.appendChild(option1);
+
+            const option2 = document.createElement('option');
+            option2.value = 'parent2';
+            option2.textContent = `Parent 2: ${parent2[stat]}`;
+            dropdown.appendChild(option2);
+        };
+
+        updateStatDropdown('healthParent', 'health');
+        updateStatDropdown('staminaParent', 'stamina');
+        updateStatDropdown('oxygenParent', 'oxygen');
+        updateStatDropdown('foodParent', 'food');
+        updateStatDropdown('weightParent', 'weight');
+        updateStatDropdown('meleeParent', 'melee');
+
+    }
+}
+
+document.getElementById('parent1').addEventListener('change', updateStatDropdowns);
+document.getElementById('parent2').addEventListener('change', updateStatDropdowns);
+
