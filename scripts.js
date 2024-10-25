@@ -307,6 +307,17 @@ function updateStatDropdowns() {
     }
 }
 
+// Event listener for changing parent selection on Mating Form
 document.getElementById('parent1').addEventListener('change', updateStatDropdowns);
 document.getElementById('parent2').addEventListener('change', updateStatDropdowns);
+
+
+document.getElementById('mutationToggle').addEventListener('change', function() {
+    var mutatedStatField = document.getElementById('mutatedStatField');
+    if (this.checked) {
+        mutatedStatField.style.display = 'block';
+    } else {
+        mutatedStatField.style.display = 'none';
+    }
+});
 

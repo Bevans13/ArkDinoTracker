@@ -159,6 +159,30 @@
                         <option value="parent2">Parent 2</option>
                     </select>
                 </div>
+
+                <div>
+                    <label for="mutationToggle">Mutation occurred:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="mutationToggle" name="mutationToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Mutated stat entry field, hidden until mutation toggle is checked -->
+                <div id="mutatedStatField" style="display:none;">
+                    <label for="statToMutate">Select Stat to Mutate:</label>
+                    <select id="statToMutate" name="statToMutate">
+                        <option value="health">Health</option>
+                        <option value="stamina">Stamina</option>
+                        <option value="oxygen">Oxygen</option>
+                        <option value="food">Food</option>
+                        <option value="weight">Weight</option>
+                        <option value="melee">Melee</option>
+                    </select>
+
+                    <label for="mutatedStat">Mutated Stat Value:</label>
+                    <input type="text" id="mutatedStat" name="mutatedStat">
+                </div>
         
                 <button id="mateSubmitButton" type="submit">Mate</button>
             </form>
